@@ -29,7 +29,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     override fun executeChangeCard(cards: HashSet<Card>) {
-        TODO("执行换牌策略")
+//        TODO("执行换牌策略")
         for (card in cards) {
             if (card.cost > 2){
 //                不要哪张牌就直接移除
@@ -46,7 +46,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     override fun executeOutCard() {
-        TODO("执行出牌策略")
+//        TODO("执行出牌策略")
         //        我方玩家
         val me = War.me
 //        敌方玩家
@@ -83,6 +83,7 @@ class TemplateStrategyDeck : DeckStrategy() {
 
 //            攻击
             val copyPlayCards = playCards.toMutableList()
+
             for (playCard in copyPlayCards) {
                 if (playCard.canAttack()) {
 //                    判断我方随从攻击力是否大于敌方英雄血量
@@ -90,8 +91,15 @@ class TemplateStrategyDeck : DeckStrategy() {
 //                    我方随从攻击敌方英雄
                         playCard.action.attackHero()
                     } else {
-//                    我方随从攻击敌方随从
-//                    playCard.action.attack(rivalCard)
+                        if (rival.playArea.cards.isNotEmpty()){
+                            var rivalPlayCard = rival.playArea.cards[0]
+//                            如果对方随从拥有嘲讽
+                            if (rivalPlayCard.isTaunt){
+//                                我方随从攻击敌方随从
+                                playCard.action.attack(rivalPlayCard)
+                            }
+                        }
+
                     }
                 }
             }
@@ -121,7 +129,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     override fun executeDiscoverChooseCard(vararg cards: Card): Int {
-        TODO("执行选择发现牌策略")
+//        TODO("执行选择发现牌策略")
 //        返回选择卡牌的下标，这里选择的第一张牌
         return 0
     }

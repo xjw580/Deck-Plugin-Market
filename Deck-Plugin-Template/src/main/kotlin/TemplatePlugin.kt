@@ -30,6 +30,6 @@ class TemplatePlugin: DeckPlugin {
     }
 
     override fun homeUrl(): String {
-        return "https://github.com/xjw580/Deck-Plugin-Template"
+        return "https://github.com/xjw580/Deck-Plugin-Market/tree/master/Deck-Plugin-Template"
     }
 }

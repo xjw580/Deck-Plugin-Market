@@ -8,7 +8,6 @@
         <groupId>club.xiaojiawei</groupId>
         <artifactId>Deck-Plugin-Market</artifactId>
         <version>1.0.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <artifactId>Deck-Plugin-Template</artifactId>
