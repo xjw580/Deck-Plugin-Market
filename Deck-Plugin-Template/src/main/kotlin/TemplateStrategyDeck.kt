@@ -80,7 +80,7 @@ class TemplateStrategyDeck : DeckStrategy() {
             val heroEntityId = hero?.entityId
 
             if (heroCardId == "ICC_833") {
-                println("该卡牌为 冰霜女巫吉安娜")
+                log.info { "该卡牌为 冰霜女巫吉安娜" }
             }
 
 
@@ -114,11 +114,11 @@ class TemplateStrategyDeck : DeckStrategy() {
             val copyHandCards = handCards.toMutableList()
             for (handCard in copyHandCards) {
                 when (handCard.cardType){
-                    CardTypeEnum.SPELL-> println("该牌为法术")
-                    CardTypeEnum.MINION-> println("该牌为随从")
-                    CardTypeEnum.HERO-> println("该牌为英雄")
-                    CardTypeEnum.HERO_POWER-> println("该牌为英雄技能")
-                    else-> println("")
+                    CardTypeEnum.SPELL-> log.info { "该牌为法术" }
+                    CardTypeEnum.MINION-> log.info { "该牌为随从" }
+                    CardTypeEnum.HERO-> log.info { "该牌为英雄" }
+                    CardTypeEnum.HERO_POWER-> log.info { "该牌为英雄技能" }
+                    else-> log.info { "" }
                 }
 
 //                费用够
