@@ -1,5 +1,7 @@
 import club.xiaojiawei.DeckStrategy
 import club.xiaojiawei.bean.Card
+import club.xiaojiawei.config.log
+import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.War
 import java.util.HashSet
@@ -45,6 +47,9 @@ class TemplateStrategyDeck : DeckStrategy() {
         return card.health + card.armor - card.damage
     }
 
+    /**
+     * 我的回合开始时将会自动调用此方法
+     */
     override fun executeOutCard() {
 //        TODO("执行出牌策略")
         //        我方玩家
@@ -78,6 +83,7 @@ class TemplateStrategyDeck : DeckStrategy() {
                 println("该卡牌为 冰霜女巫吉安娜")
             }
 
+
 //            执行操作
             rival!!
 
@@ -92,7 +98,7 @@ class TemplateStrategyDeck : DeckStrategy() {
                         playCard.action.attackHero()
                     } else {
                         if (rival.playArea.cards.isNotEmpty()){
-                            var rivalPlayCard = rival.playArea.cards[0]
+                            val rivalPlayCard = rival.playArea.cards[0]
 //                            如果对方随从拥有嘲讽
                             if (rivalPlayCard.isTaunt){
 //                                我方随从攻击敌方随从
@@ -107,6 +113,14 @@ class TemplateStrategyDeck : DeckStrategy() {
 //            出牌
             val copyHandCards = handCards.toMutableList()
             for (handCard in copyHandCards) {
+                when (handCard.cardType){
+                    CardTypeEnum.SPELL-> println("该牌为法术")
+                    CardTypeEnum.MINION-> println("该牌为随从")
+                    CardTypeEnum.HERO-> println("该牌为英雄")
+                    CardTypeEnum.HERO_POWER-> println("该牌为英雄技能")
+                    else-> println("")
+                }
+
 //                费用够
                 if (handCard.cost <= me.usableResource){
 //                    直接打出
