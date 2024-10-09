@@ -32,7 +32,8 @@ class TemplateStrategyDeck : DeckStrategy() {
 
     override fun executeChangeCard(cards: HashSet<Card>) {
 //        TODO("执行换牌策略")
-        for (card in cards) {
+        val toList = cards.toList()
+        for (card in toList) {
             if (card.cost > 2){
 //                不要哪张牌就直接移除
                 cards.remove(card)
@@ -41,7 +42,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     /**
-     * 计算卡牌血量
+     * 计算卡牌血量，所有卡牌都应按此方式计算
      */
     fun calcBlood(card: Card): Int {
         return card.health + card.armor - card.damage
@@ -84,8 +85,8 @@ class TemplateStrategyDeck : DeckStrategy() {
             }
 
 
-//            执行操作
             rival!!
+//            执行操作
 
 //            攻击
             val copyPlayCards = playCards.toMutableList()
