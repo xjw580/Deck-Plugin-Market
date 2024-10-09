@@ -49,6 +49,17 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     /**
+     * 深度复制卡牌集合
+     */
+    fun deepCloneCards(sourceCards: List<Card>):MutableList<Card>{
+        val copyCards = mutableListOf<Card>()
+        sourceCards.forEach {
+            copyCards.add(it.clone())
+        }
+        return copyCards
+    }
+
+    /**
      * 我的回合开始时将会自动调用此方法
      */
     override fun executeOutCard() {
@@ -88,8 +99,15 @@ class TemplateStrategyDeck : DeckStrategy() {
             rival!!
 //            执行操作
 
-//            攻击
+            /*
+            注意：
+            1.从War中获取到的数据都是实时更新的，
+            2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌（该牌动画播放完毕后才会删除），playCards则会增加对应的卡牌（如果没被反制）
+            3. 建议将集合中卡牌复制到新集合中，例：playCards.toMutableList() 或 playCards.toList()
+            4. 集合中Card的属性也会实时变化，如果不想变化，可以深度拷贝集合，@see deepCloneCards(List<Card>)
+            */
             val copyPlayCards = playCards.toMutableList()
+//            攻击
 
             for (playCard in copyPlayCards) {
                 if (playCard.canAttack()) {
@@ -104,6 +122,7 @@ class TemplateStrategyDeck : DeckStrategy() {
                             if (rivalPlayCard.isTaunt){
 //                                我方随从攻击敌方随从
                                 playCard.action.attack(rivalPlayCard)
+                                playCard.clone()
                             }
                         }
 
@@ -111,8 +130,8 @@ class TemplateStrategyDeck : DeckStrategy() {
                 }
             }
 
-//            出牌
             val copyHandCards = handCards.toMutableList()
+//            出牌
             for (handCard in copyHandCards) {
                 when (handCard.cardType){
                     CardTypeEnum.SPELL-> log.info { "该牌为法术" }
