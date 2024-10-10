@@ -1,6 +1,10 @@
 import club.xiaojiawei.DeckStrategy
 import club.xiaojiawei.bean.Card
+import club.xiaojiawei.bean.area.DeckArea
+import club.xiaojiawei.bean.area.HandArea
+import club.xiaojiawei.bean.area.PlayArea
 import club.xiaojiawei.config.log
+import club.xiaojiawei.enums.CardRaceEnum
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.War
@@ -39,13 +43,6 @@ class TemplateStrategyDeck : DeckStrategy() {
                 cards.remove(card)
             }
         }
-    }
-
-    /**
-     * 计算卡牌血量，所有卡牌都应按此方式计算
-     */
-    fun calcBlood(card: Card): Int {
-        return card.health + card.armor - card.damage
     }
 
     /**
@@ -112,7 +109,7 @@ class TemplateStrategyDeck : DeckStrategy() {
             for (playCard in copyPlayCards) {
                 if (playCard.canAttack()) {
 //                    判断我方随从攻击力是否大于敌方英雄血量
-                    if (playCard.atc >= calcBlood(rival.playArea.hero!!)) {
+                    if (playCard.atc >= rival.playArea.hero!!.blood()) {
 //                    我方随从攻击敌方英雄
                         playCard.action.attackHero()
                     } else {
@@ -133,12 +130,25 @@ class TemplateStrategyDeck : DeckStrategy() {
             val copyHandCards = handCards.toMutableList()
 //            出牌
             for (handCard in copyHandCards) {
+//                判断卡牌所在区域，当然这里的卡牌都在手牌区，仅作演示
+                if (handCard.area is HandArea) {
+                    log.info { "该牌位于手牌区" }
+                }else if (handCard.area is PlayArea) {
+                    log.info { "该牌位于战场区" }
+                }else if (handCard.area is DeckArea){
+                    log.info { "该牌位于牌库区" }
+                }
+
                 when (handCard.cardType){
                     CardTypeEnum.SPELL-> log.info { "该牌为法术" }
                     CardTypeEnum.MINION-> log.info { "该牌为随从" }
                     CardTypeEnum.HERO-> log.info { "该牌为英雄" }
                     CardTypeEnum.HERO_POWER-> log.info { "该牌为英雄技能" }
                     else-> log.info { "" }
+                }
+                if (handCard.cardType === CardTypeEnum.MINION) {
+                    log.info { "种族：" + handCard.cardRace }
+                    handCard.spellPower
                 }
 
 //                费用够
