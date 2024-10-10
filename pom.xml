@@ -108,14 +108,14 @@
         <dependency>
             <groupId>com.github.xjw580.Hearthstone-Script</groupId>
             <artifactId>hs-script-deck-sdk</artifactId>
-            <version>4.0.0.1-PATCH</version>
+            <version>4.0.0.3-PATCH</version>
             <scope>provided</scope>
         </dependency>
         <!--插件SDK-->
         <dependency>
             <groupId>com.github.xjw580.Hearthstone-Script</groupId>
             <artifactId>hs-script-plugin-sdk</artifactId>
-            <version>4.0.0.1-PATCH</version>
+            <version>4.0.0.3-PATCH</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
