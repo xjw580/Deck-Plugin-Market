@@ -3,8 +3,8 @@ import club.xiaojiawei.bean.Card
 import club.xiaojiawei.bean.area.DeckArea
 import club.xiaojiawei.bean.area.HandArea
 import club.xiaojiawei.bean.area.PlayArea
+import club.xiaojiawei.bean.isValid
 import club.xiaojiawei.config.log
-import club.xiaojiawei.enums.CardRaceEnum
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.War
@@ -38,7 +38,7 @@ class TemplateStrategyDeck : DeckStrategy() {
 //        TODO("执行换牌策略")
         val toList = cards.toList()
         for (card in toList) {
-            if (card.cost > 2){
+            if (card.cost > 2) {
 //                不要哪张牌就直接移除
                 cards.remove(card)
             }
@@ -48,7 +48,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     /**
      * 深度复制卡牌集合
      */
-    fun deepCloneCards(sourceCards: List<Card>):MutableList<Card>{
+    fun deepCloneCards(sourceCards: List<Card>): MutableList<Card> {
         val copyCards = mutableListOf<Card>()
         sourceCards.forEach {
             copyCards.add(it.clone())
@@ -61,98 +61,99 @@ class TemplateStrategyDeck : DeckStrategy() {
      */
     override fun executeOutCard() {
 //        TODO("执行出牌策略")
+//        需要投降时将needSurrender设为true
+//        needSurrender = true
         //        我方玩家
         val me = War.me
+        if (!me.isValid()) return
 //        敌方玩家
         val rival = War.rival
-        me?.let {
+        if (!rival.isValid()) return
 //            获取战场信息
 
 //            获取我方所有手牌
-            val handCards = me.handArea.cards
+        val handCards = me.handArea.cards
 //            获取我方所有场上的卡牌
-            val playCards = me.playArea.cards
+        val playCards = me.playArea.cards
 //            获取我方英雄
-            val hero = me.playArea.hero
+        val hero = me.playArea.hero
 //            获取我方武器
-            val weapon = me.playArea.weapon
+        val weapon = me.playArea.weapon
 //            获取我方技能
-            val power = me.playArea.power
+        val power = me.playArea.power
 //            获取我方所有牌库中的卡牌
-            val deckCards = me.deckArea.cards
+        val deckCards = me.deckArea.cards
 //            我方当前可用水晶数
-            val usableResource = me.usableResource
+        val usableResource = me.usableResource
 
 //            cardId是游戏写死的，每张牌的cardId都是唯一不变的，如同身份证号码，
-            val heroCardId = hero?.cardId
+        val heroCardId = hero?.cardId
 //            entityId在每局游戏中是唯一的
-            val heroEntityId = hero?.entityId
+        val heroEntityId = hero?.entityId
 
-            if (heroCardId == "ICC_833") {
-                log.info { "该卡牌为 冰霜女巫吉安娜" }
-            }
+        if (heroCardId == "ICC_833") {
+            log.info { "该卡牌为 冰霜女巫吉安娜" }
+        }
 
-
-            rival!!
 //            执行操作
 
-            /*
-            注意：
-            1.从War中获取到的数据都是实时更新的，
-            2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌（该牌动画播放完毕后才会删除），playCards则会增加对应的卡牌（如果没被反制）
-            3. 建议将集合中卡牌复制到新集合中，例：playCards.toMutableList() 或 playCards.toList()
-            4. 集合中Card的属性也会实时变化，如果不想变化，可以深度拷贝集合，@see deepCloneCards(List<Card>)
-            */
-            val copyPlayCards = playCards.toMutableList()
+        /*
+        注意：
+        1.从War中获取到的数据都是实时更新的，
+        2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌（该牌动画播放完毕后才会删除），playCards则会增加对应的卡牌（如果没被反制）
+        3. 建议将集合中卡牌复制到新集合中，例：playCards.toMutableList() 或 playCards.toList()
+        4. 集合中Card的属性也会实时变化，如果不想变化，可以深度拷贝集合，@see deepCloneCards(List<Card>)
+        */
+        val copyPlayCards = playCards.toMutableList()
 //            攻击
 
-            for (playCard in copyPlayCards) {
-                if (playCard.canAttack()) {
+        for (playCard in copyPlayCards) {
+            if (playCard.canAttack()) {
 //                    判断我方随从攻击力是否大于敌方英雄血量
-                    if (playCard.atc >= rival.playArea.hero!!.blood()) {
+                if (playCard.atc >= rival.playArea.hero!!.blood()) {
 //                    我方随从攻击敌方英雄
-                        playCard.action.attackHero()
-                    } else {
-                        if (rival.playArea.cards.isNotEmpty()){
-                            val rivalPlayCard = rival.playArea.cards[0]
+                    playCard.action.attackHero()
+                } else {
+                    if (rival.playArea.cards.isNotEmpty()) {
+                        val rivalPlayCard = rival.playArea.cards[0]
 //                            如果对方随从拥有嘲讽
-                            if (rivalPlayCard.isTaunt){
+                        if (rivalPlayCard.isTaunt) {
 //                                我方随从攻击敌方随从
-                                playCard.action.attack(rivalPlayCard)
-                                playCard.clone()
-                            }
+                            playCard.action.attack(rivalPlayCard)
+                            playCard.clone()
                         }
-
                     }
+
                 }
             }
+        }
 
-            val copyHandCards = handCards.toMutableList()
+        val copyHandCards = handCards.toMutableList()
 //            出牌
-            for (handCard in copyHandCards) {
+        for (handCard in copyHandCards) {
 //                判断卡牌所在区域，当然这里的卡牌都在手牌区，仅作演示
-                if (handCard.area is HandArea) {
-                    log.info { "该牌位于手牌区" }
-                }else if (handCard.area is PlayArea) {
-                    log.info { "该牌位于战场区" }
-                }else if (handCard.area is DeckArea){
-                    log.info { "该牌位于牌库区" }
-                }
+            if (handCard.area is HandArea) {
+                log.info { "该牌位于手牌区" }
+            } else if (handCard.area is PlayArea) {
+                log.info { "该牌位于战场区" }
+            } else if (handCard.area is DeckArea) {
+                log.info { "该牌位于牌库区" }
+            }
 
-                when (handCard.cardType){
-                    CardTypeEnum.SPELL-> log.info { "该牌为法术" }
-                    CardTypeEnum.MINION-> log.info { "该牌为随从" }
-                    CardTypeEnum.HERO-> log.info { "该牌为英雄" }
-                    CardTypeEnum.HERO_POWER-> log.info { "该牌为英雄技能" }
-                    else-> log.info { "" }
-                }
-                if (handCard.cardType === CardTypeEnum.MINION) {
-                    log.info { "种族：" + handCard.cardRace }
-                    handCard.spellPower
-                }
+            when (handCard.cardType) {
+                CardTypeEnum.SPELL -> log.info { "该牌为法术" }
+                CardTypeEnum.MINION -> log.info { "该牌为随从" }
+                CardTypeEnum.HERO -> log.info { "该牌为英雄" }
+                CardTypeEnum.HERO_POWER -> log.info { "该牌为英雄技能" }
+                else -> log.info { "" }
+            }
+            if (handCard.cardType === CardTypeEnum.MINION) {
+                log.info { "种族：" + handCard.cardRace }
+                handCard.spellPower
+            }
 
 //                费用够
-                if (handCard.cost <= me.usableResource){
+            if (handCard.cost <= me.usableResource) {
 //                    直接打出
 //                    handCard.action.power()
 //                    打出到我方场上指定下标处
@@ -161,12 +162,11 @@ class TemplateStrategyDeck : DeckStrategy() {
 //                    handCard.action.power(card)
 //                    如果有比较复杂的卡牌
 //                    如果是阿莱克丝塔萨（生命值变15的那个）
-                    if (handCard.cardId == "EX1_561"){
+                if (handCard.cardId == "EX1_561") {
 //                        步骤：打出，指向敌方英雄（即战吼目标为敌方英雄）
-                        handCard.action
-                            .power()
-                            ?.pointTo(rival.playArea.hero!!)
-                    }
+                    handCard.action
+                        .power()
+                        ?.pointTo(rival.playArea.hero!!)
                 }
             }
         }

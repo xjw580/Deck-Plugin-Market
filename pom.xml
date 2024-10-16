@@ -32,6 +32,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <kt-version>2.0.20</kt-version>
+        <sdk-version>v4.0.3-BETA</sdk-version>
     </properties>
 
 
@@ -108,14 +109,14 @@
         <dependency>
             <groupId>com.github.xjw580.Hearthstone-Script</groupId>
             <artifactId>hs-script-deck-sdk</artifactId>
-            <version>4.0.0.3-PATCH</version>
+            <version>${sdk-version}</version>
             <scope>provided</scope>
         </dependency>
         <!--插件SDK-->
         <dependency>
             <groupId>com.github.xjw580.Hearthstone-Script</groupId>
             <artifactId>hs-script-plugin-sdk</artifactId>
-            <version>4.0.0.3-PATCH</version>
+            <version>${sdk-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
