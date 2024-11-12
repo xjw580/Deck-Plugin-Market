@@ -32,7 +32,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <kt-version>2.0.20</kt-version>
-        <sdk-version>v4.1.1-TEST</sdk-version>
+        <sdk-version>v4.1.2-DEV</sdk-version>
     </properties>
 
 
