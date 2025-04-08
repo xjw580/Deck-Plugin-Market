@@ -5,11 +5,9 @@ import club.xiaojiawei.bean.area.HandArea
 import club.xiaojiawei.bean.area.PlayArea
 import club.xiaojiawei.bean.isValid
 import club.xiaojiawei.config.log
-import club.xiaojiawei.data.CARD_WEIGHT_TRIE
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
-import club.xiaojiawei.status.War
-import java.util.HashSet
+import club.xiaojiawei.status.WAR
 
 /**
  * @author 肖嘉威
@@ -64,11 +62,13 @@ class TemplateStrategyDeck : DeckStrategy() {
 //        TODO("执行出牌策略")
 //        需要投降时将needSurrender设为true
 //        needSurrender = true
+//        获取全局war
+        val war = WAR
         //        我方玩家
-        val me = War.me
+        val me = war.me
         if (!me.isValid()) return
 //        敌方玩家
-        val rival = War.rival
+        val rival = war.rival
         if (!rival.isValid()) return
 //            获取战场信息
 
@@ -96,14 +96,11 @@ class TemplateStrategyDeck : DeckStrategy() {
             log.info { "该卡牌为 冰霜女巫吉安娜" }
         }
 
-//        获取卡牌权重，默认1.0，用户可以通过软件内的权重设置页设置权重，当然参不参考看你自己
-        val weight = CARD_WEIGHT_TRIE["ICC_833"]
-
 //            执行操作
 
         /*
         注意：
-        1. 从War中获取到的数据都是实时更新的，
+        1.从war中获取到的数据都是实时更新的，
         2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌（该牌动画播放完毕后才会删除），playCards则会增加对应的卡牌（如果没被反制）
         3. 建议将集合中卡牌复制到新集合中，例：playCards.toMutableList() 或 playCards.toList()
         4. 集合中Card的属性也会实时变化，如果不想变化，可以深度拷贝集合，@see deepCloneCards(List<Card>)
