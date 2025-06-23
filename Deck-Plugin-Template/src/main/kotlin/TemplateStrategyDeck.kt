@@ -8,6 +8,8 @@ import club.xiaojiawei.config.log
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.WAR
+import kotlin.collections.toList
+import java.util.HashSet
 
 /**
  * @author 肖嘉威
@@ -34,7 +36,7 @@ class TemplateStrategyDeck : DeckStrategy() {
     }
 
     override fun executeChangeCard(cards: HashSet<Card>) {
-//        TODO("执行换牌策略")
+        //        TODO("执行换牌策略")
         val toList = cards.toList()
         for (card in toList) {
             if (card.cost > 2) {

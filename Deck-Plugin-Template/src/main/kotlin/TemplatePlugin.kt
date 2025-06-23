@@ -1,10 +1,10 @@
-import club.xiaojiawei.DeckPlugin
+import club.xiaojiawei.StrategyPlugin
 
 /**
  * @author 肖嘉威
  * @date 2024/9/29 16:56
  */
-class TemplatePlugin: DeckPlugin {
+class TemplatePlugin: StrategyPlugin {
     override fun description(): String {
 //        插件的描述
         return "模板插件描述"
@@ -31,5 +31,9 @@ class TemplatePlugin: DeckPlugin {
 
     override fun homeUrl(): String {
         return "https://github.com/xjw580/Deck-Plugin-Market/tree/master/Deck-Plugin-Template"
+    }
+
+    override fun sdkVersion(): String {
+        TODO("Not yet implemented")
     }
 }
