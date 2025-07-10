@@ -8,7 +8,6 @@ import club.xiaojiawei.config.log
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.WAR
-import kotlin.collections.toList
 import java.util.HashSet
 
 /**

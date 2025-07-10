@@ -34,6 +34,6 @@ class TemplatePlugin: StrategyPlugin {
     }
 
     override fun sdkVersion(): String {
-        TODO("Not yet implemented")
+        return "v4.8.0-GA"
     }
 }
