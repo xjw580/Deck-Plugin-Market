@@ -1,14 +1,17 @@
 import club.xiaojiawei.DeckStrategy
+import club.xiaojiawei.bean.BaseCard
 import club.xiaojiawei.bean.Card
 import club.xiaojiawei.bean.area.DeckArea
 import club.xiaojiawei.bean.area.HandArea
 import club.xiaojiawei.bean.area.PlayArea
 import club.xiaojiawei.bean.isValid
 import club.xiaojiawei.config.log
+import club.xiaojiawei.data.CARD_INFO_TRIE
+import club.xiaojiawei.data.CARD_WEIGHT_TRIE
+import club.xiaojiawei.enums.CardRaceEnum
 import club.xiaojiawei.enums.CardTypeEnum
 import club.xiaojiawei.enums.RunModeEnum
 import club.xiaojiawei.status.WAR
-import java.util.HashSet
 
 /**
  * @author 肖嘉威
@@ -34,7 +37,8 @@ class TemplateStrategyDeck : DeckStrategy() {
         return "套牌唯一id"
     }
 
-    override fun executeChangeCard(cards: HashSet<Card>) {
+
+    override fun executeChangeCard(cards: java.util.HashSet<Card>) {
         //        TODO("执行换牌策略")
         val toList = cards.toList()
         for (card in toList) {
@@ -61,6 +65,8 @@ class TemplateStrategyDeck : DeckStrategy() {
      */
     override fun executeOutCard() {
 //        TODO("执行出牌策略")
+
+
 //        需要投降时将needSurrender设为true
 //        needSurrender = true
 //        获取全局war
@@ -97,12 +103,32 @@ class TemplateStrategyDeck : DeckStrategy() {
             log.info { "该卡牌为 冰霜女巫吉安娜" }
         }
 
+//        获取用户设置的卡牌权重
+        val cardWeightTrie = CARD_WEIGHT_TRIE
+//        冰霜女巫吉安娜的权重
+        val weight = cardWeightTrie["ICC_833"]
+
+//        获取用户设置的卡牌行为
+        val cardInfoTrie = CARD_INFO_TRIE
+//        冰霜女巫吉安娜的卡牌行为
+        val cardInfo = cardInfoTrie["ICC_833"]
+
+
+        /**
+         * 获取卡牌的各项属性，如攻击力，费用，种族，是否为嘲讽。详情参考[BaseCard]
+         * 卡牌属性的便捷封装，参考[Card]
+         */
+
+        /**
+         * 卡牌存在于各个区域，如手牌区，牌库区，详情见[club.xiaojiawei.bean.area.Area]的子类
+         */
+
 //            执行操作
 
         /*
         注意：
         1.从war中获取到的数据都是实时更新的，
-        2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌（该牌动画播放完毕后才会删除），playCards则会增加对应的卡牌（如果没被反制）
+        2. 当我从手牌中打出一张随从牌时，handCards会自动删除对应的卡牌，playCards则会增加对应的卡牌（如果没被反制）
         3. 建议将集合中卡牌复制到新集合中，例：playCards.toMutableList() 或 playCards.toList()
         4. 集合中Card的属性也会实时变化，如果不想变化，可以深度拷贝集合，@see deepCloneCards(List<Card>)
         */
@@ -122,7 +148,9 @@ class TemplateStrategyDeck : DeckStrategy() {
                         if (rivalPlayCard.isTaunt) {
 //                                我方随从攻击敌方随从
                             playCard.action.attack(rivalPlayCard)
-                            playCard.clone()
+                            if (rivalPlayCard.isDead()){
+                                log.info { "该随从已经死亡" }
+                            }
                         }
                     }
 
@@ -149,9 +177,8 @@ class TemplateStrategyDeck : DeckStrategy() {
                 CardTypeEnum.HERO_POWER -> log.info { "该牌为英雄技能" }
                 else -> log.info { "" }
             }
-            if (handCard.cardType === CardTypeEnum.MINION) {
-                log.info { "种族：" + handCard.cardRace }
-                handCard.spellPower
+            if (handCard.cardRace === CardRaceEnum.DEMON) {
+                log.info { "该牌是恶魔" }
             }
 
 //                费用够
