@@ -1,6 +1,8 @@
-### 套牌插件市场
+## hs-strategy-plugin-template
 
-> 适用于[Hearthstone-Script](https://github.com/xjw580/Hearthstone-Script)项目
+此项目为[Hearthstone-Script](https://github.com/xjw580/Hearthstone-Script)的策略插件模板
 
 
-自己写的插件想分享的可以向此项目提pr或者告诉我你插件项目的地址
+## 协议
+
+本项目遵循 **[GPL3.0开源协议](file:///S:/IdeaProjects/hs-card-plugin-template/LICENSE)** 及 **[禁止商用附加协议](file:///S:/IdeaProjects/hs-card-plugin-template/LICENSE1)**
