@@ -13,7 +13,7 @@
 
 ### 前置
 
-1. 阅读 [hs-script-card-sdk ](https://github.com/xjw580/hs-script-card-sdk)项目和 [hs-script-strategy-sdk](https://github.com/xjw580/hs-script-strategy-sdk) 项目，插件的开发基于提供的这两个SDK，对SDK的使用参考[TemplateStrategyDeck](src/main/kotlin/club/xiaojiawei/strategyplugintemplate/TemplateStrategyDeck.kt)https://github.com/xjw580/hs-script-base-card-plugin)
+1. 阅读 [hs-script-card-sdk ](https://github.com/xjw580/hs-script-card-sdk)项目和 [hs-script-strategy-sdk](https://github.com/xjw580/hs-script-strategy-sdk) 项目，插件的开发基于提供的这两个SDK，对SDK的使用参考[TemplateStrategyDeck](src/main/kotlin/club/xiaojiawei/strategyplugintemplate/TemplateStrategyDeck.kt)
 2. 阅读 [hs-script-base-strategy-plugin](https://github.com/xjw580/hs-script-base-strategy-plugin) 项目
 
 
