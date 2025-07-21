@@ -7,7 +7,7 @@
 
 ## 协议
 
-本项目遵循 **[GPL3.0开源协议](file:///S:/IdeaProjects/hs-card-plugin-template/LICENSE)** 及 **[禁止商用附加协议](file:///S:/IdeaProjects/hs-card-plugin-template/LICENSE1)**
+本项目遵循 **[GPL3.0开源协议](LICENSE)** 及 **[禁止商用附加协议](LICENSE1)**
 
 
 
